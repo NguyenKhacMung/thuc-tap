@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div>
+		<form  action="" >										
+			<span></span>
+			<input type="text" required="true" />
+
+			<select  id="nnn">
+				<option class="option2" value="vi"selected>Tiếng Việt</option>
+				<option class="option2" value="en">Tiếng Anh</option>
+				<option class="option2" value="fr" >Tiếng Pháp </option>				
+				<option class="option2" value="ja" >Tiếng Nhật </option>
+				<option class="option2" value="kr" >Tiếng Hàn </option>
+				<option class="option2" value="cmn" >Tiếng Trung </option>
+			</select>
+			<button class="btn btn-info" id="submit" style="width: 100%;">Play &#9658;</button>
+
+		</form>	
+		<audio id="audio" src=""  controls>		
+		</audio>
+	</div>
+
+
+	<script>
+		$(document).ready(function(){
+			var count = 0;
+			var nn=  $("#nnn").val();				
+			$("#nnn").change(function(){
+				nn= $(this).val();	
+				$("#audio").attr("src", "");
+				pause();
+			});	
+			$('form').submit(function(e){
+				e.preventDefault();
+				var text= $('input').val();
+				$("input").click(function(){
+					$("#audio").attr("src", "");
+					pause();
+				});
+				if($("#audio").attr("src")==""){					
+					// $.getJSON("https://vbee.vn/api/v1/convert-tts?input_text="+text+"&voice=hue_female_huonggiang_news_48k-thg&bit_rate=128000", function( data ) {
+
+					// 	$("#audio").attr("src", data.download);
+					$("#audio").attr("src", nn+"media/audio.mp3");
+					play();
+					// });
+				}else{
+					if(count == 0){
+						play();						
+					}else{
+						pause();					
+					}
+				}
+				
+				$("#audio")[0].onended = function() {
+					pause();
+				};
+				function play(){
+					$("#audio")[0].play();
+					$('#submit').html("Pause &#9208;");
+					count = 1;
+				};
+				function pause(){
+					$("#audio")[0].pause();
+					$('#submit').html("Play &#9658;");
+					count = 0;
+				};
+			});		
+		});
+	</script>
+</body>
+</html>
